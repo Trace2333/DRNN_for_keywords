@@ -4,10 +4,12 @@ import torch
 import os
 import dill
 from tqdm import tqdm
-from general_ode.utils.args import get_parameter
+from general_code.utils.config_fun import load_config
+from general_code.utils.args import get_parameter
 from torch.utils.data import DataLoader
-from TorchsRNN import RNNdataset, collate_fun2, DRNN
-from evalTools import acc_metrics, recall_metrics, f1_metrics
+from general_code.models.DRNN import DRNN
+from general_code.dataset.for_word2vec_embw import RNNdataset, collate_fun2
+from general_code.utils.evalTools import acc_metrics, recall_metrics, f1_metrics
 
 
 def trainer_basic(args=None):
@@ -16,7 +18,7 @@ def trainer_basic(args=None):
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project="DRNN-Bert-embw")
+    wandb.init(project=args.project)
     wandb.config.epochs = args.epochs
     wandb.config.lr = args.lr
     wandb.config.batch_size = args.batch_size
@@ -28,7 +30,7 @@ def trainer_basic(args=None):
     epochs = args.epochs
     evaluation_epochs = args.evaluation_epochs
     lr = args.lr
-    embedding_model = open("embedding_origin.pkl", "rb")
+    embedding_model = open(".\\hot_data\\embedding_origin.pkl", "rb")
     matrix = dill.load(embedding_model)
     embedding_model.close()
     matrix = torch.tensor(matrix).to(device)
@@ -47,20 +49,19 @@ def trainer_basic(args=None):
         if isinstance(i, torch.nn.Linear):
             torch.nn.init.xavier_normal_(i.weight, gain=10)
 
-    if not os.path.exists(".\\check_points"):
-        os.mkdir(".\\check_points")
-    check_point = '.\\check_points'
-    """if os.path.exists(check_point + '\\DRNN_parms.pth'):    # 参数加载
-        model.load_state_dict(torch.load(check_point + '\\DRNN_parms.pth'))
-        print("Parms loaded!!!")"""
-
-    dataset_file = open("data_set.pkl", 'rb')
+    load_config(
+        model,
+        target_path="/RNN_attention/",
+        para_name="parameters_epoch_2.pth",
+        if_load_or_not=False
+    )
+    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
 
     dataset = RNNdataset(train)
     train_loader = DataLoader(dataset=dataset,
                               batch_size=batch_size,
-                              shuffle=True,
+                              shuffle=False,
                               num_workers=0,
                               drop_last=True,
                               collate_fn=collate_fun2
@@ -72,10 +73,12 @@ def trainer_basic(args=None):
                                    shuffle=True,
                                    num_workers=0,
                                    drop_last=True,
-                                   collate_fn=collate_fun2)
-
-    lossfunction = torch.nn.CrossEntropyLoss()    # 优化器、损失函数选择
-    optimizer = torch.optim.Adam(model.parameters(), lr)
+                                   collate_fn=collate_fun2
+                                   )
+    if args.optim == "CrossEnttropy":
+        lossfunction = torch.nn.CrossEntropyLoss()    # 优化器、损失函数选择
+    if args.optim == "Adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 
     logging.info("Start Iteration")

@@ -1,8 +1,8 @@
 import os
+import dill
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
-import dill
 
 
 class RNNdataset(Dataset):
@@ -31,15 +31,9 @@ def collate_fun1(batch_data):
      Return:
          完成处理的batch
     """
-    # NO EXTRA PARAMETERS.....THE lENGTH of PADDED SHOULD BE SET IN FUN:padding_sentence()
     padded_list = padding_sentence(batch_data)
-    # batched_dataX = []
-    # for listX in padded_list[0]:
-    #    batched_dataX.append(sen_process(listX, embedding_model))
-    # When using the self-trained word2vec embedding, it is available
     batched_dataX = nn.functional.embedding(torch.tensor(contextwin_2(padded_list[0], 3), dtype=torch.int32),
                                             matrix).flatten(2)
-    # When using given embedding
     batched_dataY = padded_list[1][0]
     batched_dataZ = padded_list[1][1]
     dataX = batched_dataX[0].unsqueeze(0)
@@ -76,4 +70,25 @@ def collate_fun2(batch_data):
     for i in batched_dataZ[1:]:
         dataZ = torch.cat((dataZ, (torch.tensor(i).to(device)).unsqueeze(0)), dim=0)
     return (batched_dataX, (dataY, dataZ))
+
+
+def padding_sentence(inputs):
+    """
+    Padding句子并输出
+
+    Args:
+        :params inputList:list of lists
+        :params forced_length:none if no input,if the parameter is not given,we will pad tne sentences with the maxlength of the list
+    Return:
+        padding后的句子对
+    """
+    inputListX = []
+    inputListY = []
+    inputListZ = []
+    for i in inputs:
+        inputListX.append(list(i)[0])
+        inputListY.append(list(i[1])[0])
+        inputListZ.append(list(i[1])[1])
+    max_length = max(len(list(x)) for x in inputListY)
+    return padding(inputListX, max_length), (padding(inputListY, max_length), padding(inputListZ, max_length))
 

@@ -1,3 +1,6 @@
+import torch.nn as nn
+
+
 class DRNN(nn.Module):
     """
     主试验网路
@@ -13,6 +16,7 @@ class DRNN(nn.Module):
         self.Linear2 = nn.Linear(in_features=inchanle, out_features=outchanle2)
         self.dropout = nn.Dropout(0.5)
         self.embw = nn.Parameter(embw)    # self.register_parameter("wemb", nn.Parameter(self.embw))
+        self.weight_init()
 
     def forward(self, inputs):
         """前向计算"""
@@ -40,4 +44,9 @@ class DRNN(nn.Module):
     def init_state(self, batchsize):
         """提供零初始化"""
         return torch.zeros((1, batchsize, self.hiddensize))
+
+    def weight_init(self):
+        for module in self.modules():
+            if isinstance(module, nn.Linear):
+                nn.init.xavier_normal_(module.weight, gain=1)
 
