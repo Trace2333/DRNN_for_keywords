@@ -12,7 +12,7 @@ def sh_create(sh_name, hyper_param):
     with open(sh_name, "w", encoding='utf8') as f:
         f.write("python3 " + hyper_param["train_file"] + " \\" + "\n")
         for i in hyper_param:
-            if i is not "train_file" and "project":
+            if i is not "train_file" and i is not "project":
                 f.write("\t")
                 f.write("--" + i + "=")
                 if i is "device":

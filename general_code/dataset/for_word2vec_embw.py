@@ -4,6 +4,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 
 class RNNdataset(Dataset):
     """
@@ -20,6 +22,11 @@ class RNNdataset(Dataset):
         y2 = list(self.data[2][item])
         y2_tensor = torch.tensor(y2)
         return torch.tensor(list(self.data[0][item])), (y1_tensor, y2_tensor)
+
+    def __len__(self):
+        """标准len格式"""
+        return len(self.data[0])
+
 
 
 def collate_fun1(batch_data):
@@ -91,4 +98,49 @@ def padding_sentence(inputs):
         inputListZ.append(list(i[1])[1])
     max_length = max(len(list(x)) for x in inputListY)
     return padding(inputListX, max_length), (padding(inputListY, max_length), padding(inputListZ, max_length))
+
+def padding(inputList, max_length, forced_length=None):
+    """
+    padding句子
+
+    Args:
+        :params inputList:输入的嵌套列表
+        :params max_length:最大的长度，用于在指定长度时使用
+        :params forced_length:是否强制长度
+    Return:
+        padding后的嵌套列表
+    """
+    if forced_length is None:
+        num_padded_length = max_length  # padding to the curant max length
+        padded_list = []
+        for sentence in inputList:
+            padded_sentence = sentence.tolist()
+            while len(padded_sentence) < num_padded_length:
+                padded_sentence.append(0)  # is the max length indefinitely
+            padded_list.append(padded_sentence)
+        return padded_list
+    else:
+        if max_length < forced_length:
+            num_padded_length = forced_length
+            padded_list = []
+            for sentence in inputList:
+                padded_sentence = sentence.tolist()
+                while len(padded_sentence) < num_padded_length:
+                    padded_sentence.append(0)  # is the max length indefinitely
+                    padded_list.append(padded_sentence)
+            return padded_list
+        else:
+            num_padded_length = forced_length    # some sentences shoule be cut.
+            padded_list = []
+            for sentence in inputList:
+                padded_sentence = sentence.tolist()
+                while len(padded_sentence) < num_padded_length:
+                    padded_sentence.append(0)  # is the max length indefinitely
+                    padded_list.append(padded_sentence)
+                while len(padded_sentence) > num_padded_length:
+                    padded_sentence.pop()
+                    padded_list.append(padded_sentence)
+            return padded_list
+
+
 

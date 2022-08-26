@@ -13,7 +13,6 @@ from general_code.utils.evalTools import acc_metrics, recall_metrics, f1_metrics
 
 
 def trainer_basic(args=None):
-    """传入的是一个Argspase对象"""
     if args is None:
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
@@ -75,9 +74,13 @@ def trainer_basic(args=None):
                                    drop_last=True,
                                    collate_fn=collate_fun2
                                    )
-    if args.optim == "CrossEnttropy":
+    if args.optim == "CrossEntropyLoss":
         lossfunction = torch.nn.CrossEntropyLoss()    # 优化器、损失函数选择
-    if args.optim == "Adam":
+    else:
+        lossfunction = torch.nn.CrossEntropyLoss()
+    if args.optim == "SGD":
+        optimizer = torch.optim.SGD(model.parameters(), lr)
+    else:
         optimizer = torch.optim.Adam(model.parameters(), lr)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 

@@ -1,3 +1,11 @@
+import torch
+import torch.nn as nn
+from transformers import BertModel, BertTokenizer
+
+
+device = torch.device("cuda" if torch.cuda.is_available() is True else "cpu")
+
+
 class Embw:
     def __init__(self, bert_path):
         self.model = BertModel.from_pretrained(bert_path).to(device)

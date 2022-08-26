@@ -1,4 +1,8 @@
+import torch
 from torch.utils.data import Dataset
+
+
+device = torch.device("cuda" if torch.cuda.is_available() is True else "cpu")
 
 
 class RNNdatasetForBert(Dataset):
@@ -36,3 +40,15 @@ def collate_fn_for_bert(batch):
     Z = padding_Y_Z(batchZ)
     return (output, Y, Z)
 
+def padding_Y_Z(x):
+    output = []
+    max_length = max(len(list(i)) for i in x)
+    for sentence in x:
+        while len(sentence) < max_length:
+            sentence.append(0)
+        output.append(sentence)
+    tensor_out = torch.tensor(output[0], dtype=torch.int8).unsqueeze(0)
+    for i in output[1:]:
+        t = torch.tensor(i).unsqueeze(0)
+        tensor_out = torch.cat((tensor_out, t), dim=0)
+    return tensor_out.to(device)
