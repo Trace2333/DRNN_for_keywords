@@ -119,7 +119,7 @@ def trainer_bert_replace_RNN(args):
             loss.backward()
             optimizer.step()
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN_parms.pth")
+    torch.save(model.state_dict(), ".\\check_points\\DRNN-bert-replace-RNN\\" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

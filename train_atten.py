@@ -110,7 +110,7 @@ def trainer_atten(args):
             loss.backward()
             optimizer.step()
 
-    torch.save(model.state_dict(), "./check_points/RNN_attention/parameters_epoch_3.pth")
+    torch.save(model.state_dict(), ".\\check_points\\DRNN-atten\\" + "DRN-atten" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

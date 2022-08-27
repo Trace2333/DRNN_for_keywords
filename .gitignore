@@ -2,3 +2,4 @@
 *.pth
 wandb/
 __pycache__/
+*.log

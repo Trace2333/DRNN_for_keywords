@@ -9,5 +9,4 @@ python3 train_atten.py \
 	--lr=0.001 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
-	--loss_fun=CrossEntropyLoss \
-	--project=DRNN-Attention
+	--loss_fun=CrossEntropyLoss

@@ -126,10 +126,10 @@ print(transformer_outputs.keys())
 print(transformer_outputs['last_hidden_state'].size())
 print(transformer_outputs['pooler_output'].size())
 """
+"""
 
-
-with open("data_set.pkl", "rb") as f:
-    dataset = dill.load(f)
+#with open("data_set.pkl", "rb") as f:
+    #dataset = dill.load(f)
 token_list = list(dataset[2]['words2idx'].keys())
 tokens = []
 output = []
@@ -140,8 +140,8 @@ for sen in dataset[0][0]:
         tokens.append(token)
     output.append(tokens)
     tokens = []
-with open("train_add_sen.pkl", "wb") as f:
-    pickle.dump(output, f)
+#with open("train_add_sen.pkl", "wb") as f:
+    #pickle.dump(output, f)
 
 output = []
 
@@ -152,5 +152,10 @@ for sen in dataset[1][0]:
         tokens.append(token)
     output.append(tokens)
     tokens = []
-with open("test_add_sen.pkl", "wb") as f:
-    pickle.dump(output, f)
+#with open("test_add_sen.pkl", "wb") as f:
+    #pickle.dump(output, f)
+"""
+
+import time
+t = time.strftime("%y-%m-%d-%H:%M:%S", time.localtime()) + "test"
+print(t)

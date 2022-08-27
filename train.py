@@ -129,7 +129,7 @@ def trainer_basic(args=None):
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN_parms.pth")
+    torch.save(model.state_dict(), ".\\check_points\\DRNN\\" + "DRN" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
