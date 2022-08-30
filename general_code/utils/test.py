@@ -155,7 +155,21 @@ for sen in dataset[1][0]:
 #with open("test_add_sen.pkl", "wb") as f:
     #pickle.dump(output, f)
 """
-
+"""
 import time
 t = time.strftime("%y-%m-%d-%H:%M:%S", time.localtime()) + "test"
 print(t)
+"""
+"""device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
+
+a = [[1,2,3,4],
+     [4,5,6,7],
+     [5,6,7,8]]
+b = torch.tensor(a)
+print(b)
+
+
+"""
+import random
+a = random.uniform(1, 3)
+print(a)

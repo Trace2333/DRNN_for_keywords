@@ -3,3 +3,8 @@
 wandb/
 __pycache__/
 *.log
+general_code/dataset/__pycache__/
+general_code/utils/__pycache__/
+general_code/models/__pycache__/
+.idea/
+*.pyc

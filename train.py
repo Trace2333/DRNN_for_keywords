@@ -50,9 +50,9 @@ def trainer_basic(args=None):
 
     load_config(
         model,
-        target_path="/RNN_attention/",
-        para_name="parameters_epoch_2.pth",
-        if_load_or_not=False
+        target_path="/DRNN/",
+        para_name="DRN-Test-2.pth",
+        if_load_or_not=True
     )
     dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
@@ -129,7 +129,7 @@ def trainer_basic(args=None):
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN\\" + "DRN" + "-Test-1")
+    torch.save(model.state_dict(), ".\\check_points\\DRNN\\" + "DRN" + "-Test-3.pth")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

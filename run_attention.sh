@@ -1,4 +1,4 @@
-python3 train_atten.py \
+python3 train.py \
 	--device=cuda \
 	--seed=42 \
 	--batch_size=64 \
@@ -6,7 +6,7 @@ python3 train_atten.py \
 	--hidden_size1=300 \
 	--hidden_size2=300 \
 	--epochs=1 \
-	--lr=0.0001 \
+	--lr=0.001 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
 	--loss_fun=CrossEntropyLoss
