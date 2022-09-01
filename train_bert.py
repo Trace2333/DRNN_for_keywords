@@ -45,13 +45,13 @@ def trainer_bert(args):
         if_load_or_not=False
     )
 
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
     dataset_file.close()
-    with open(".\\hot_data\\train_add.pkl", "rb") as f3:
+    with open("./hot_data/train_add.pkl", "rb") as f3:
         train_x = pickle.load(f3)
     train = [train_x, train[1], train[2]]
-    with open(".\\hot_data\\test_add.pkl", "rb") as f4:
+    with open("./hot_data/test_add.pkl", "rb") as f4:
         test_x = pickle.load(f4)
     test = [test_x, test[1], test[2]]
 
@@ -113,7 +113,7 @@ def trainer_bert(args):
             optimizer.step()
 
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN-bert\\" + "DRN-bert" + "-Test-1")
+    torch.save(model.state_dict(), "./check_points/DRNN-bert/" + "DRN-bert" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

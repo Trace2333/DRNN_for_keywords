@@ -9,4 +9,4 @@ python3 train.py \
 	--lr=0.001 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
-	--loss_fun=CrossEntropyLoss
+	--loss_fun=CrossEntropyLos

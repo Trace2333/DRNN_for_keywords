@@ -13,8 +13,8 @@ from general_code.dataset.for_bert_finetuning import dataset_bert_finetuning, co
 
 def data_reprocess(inputs, tokenizer):
     """用第一个token作为wordpiece的结果"""
-    if os.path.exists(".\\hot_data\\input_ids.pkl"):
-        with open(".\\hot_data\\input_ids.pkl", "rb") as f:
+    if os.path.exists("./hot_data/input_ids.pkl"):
+        with open("./hot_data/input_ids.pkl", "rb") as f:
             output = pickle.load(f)
         return output
     output = []
@@ -34,7 +34,7 @@ def data_reprocess(inputs, tokenizer):
         sen_ids = torch.cat((sen_ids, torch.tensor([102])), dim=0)
         sen_ids = sen_ids[1:-1]
         output.append(sen_ids)
-    with open(".\\hot_data\\input_ids.pkl", "wb") as f:
+    with open("./hot_data/input_ids.pkl", "wb") as f:
         pickle.dump(output, f)
     return output
 
@@ -158,7 +158,7 @@ def trainer_multitask_bert(args):
         dataset=dataset_for_fine,
         collate_fn=collate_fun
     )
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    optimizer = torch.optim.SGD(model.parameters(), lr=args.lr)
     lossfun = torch.nn.CrossEntropyLoss()
     for epoch in range(args.epochs):
         iteration = tqdm(train_loader, desc="Running train process:")

@@ -17,7 +17,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def trainer_atten(args):
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project=args.project)
+    wandb.init(project=args.project,
+            notes=args.notes)
 
     batch_size = args.batch_size    # 基本参数
     input_size = args.input_size
@@ -27,7 +28,7 @@ def trainer_atten(args):
     evaluation_epochs = args.evaluation_epochs
     lr = args.lr
 
-    embedding_model = open(".\\hot_data\\embedding_origin.pkl", "rb")
+    embedding_model = open("./hot_data/embedding_origin.pkl", "rb")
     matrix = dill.load(embedding_model)
     embedding_model.close()
     matrix = torch.tensor(matrix).to(device)
@@ -44,12 +45,12 @@ def trainer_atten(args):
 
     load_config(
         model,
-        target_path="/RNN_attention/",
-        para_name="parameters_epoch_2.pth",
-        if_load_or_not=False
+        target_path="/DRNN-atten/",
+        para_name=args.load_para,
+        if_load_or_not=args.if_load,
     )
 
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
 
     dataset = RNNdataset(train)
@@ -109,8 +110,9 @@ def trainer_atten(args):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-
-    torch.save(model.state_dict(), ".\\check_points\\DRNN-atten\\" + "DRN-atten" + "-Test-1")
+    if args.if_save is True:
+        print("Saving parameters....")
+        torch.save(model.state_dict(), "./check_points/DRNN-atten/" + args.save_name)
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

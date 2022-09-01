@@ -1,12 +1,17 @@
 python3 train_atten.py \
 	--device=cuda \
 	--seed=42 \
-	--batch_size=64 \
+	--batch_size=128 \
 	--input_size=300 \
 	--hidden_size1=300 \
 	--hidden_size2=300 \
 	--epochs=1 \
-	--lr=0.0001 \
+	--lr=1e-06 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
-	--loss_fun=CrossEntropyLoss
+	--loss_fun=CrossEntropyLoss \
+	--if_load=True \
+	--if_save=True \
+	--notes=epoch=5;saving;lr=1e-6;eval_epoch=1;default \
+	--save_name=epoch=5-lr=1e-6.pth \
+	--load_para=epoch=4.pt

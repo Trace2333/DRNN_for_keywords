@@ -34,9 +34,9 @@ def trainer_bert_replace_RNN(args):
                                batchsize=batch_size,
                                ).to(device)
 
-    with open(".\\hot_data\\train_add.pkl", "rb") as f:
+    with open("./hot_data/train_add.pkl", "rb") as f:
         train_data_pre = pickle.load(f)
-    with open(".\\hot_data\\test_add.pkl", "rb") as f:
+    with open("./hot_data/test_add.pkl", "rb") as f:
         test_data_pre = pickle.load(f)
 
     train_data = []
@@ -55,7 +55,7 @@ def trainer_bert_replace_RNN(args):
         test_data.append(temp)
         temp = ""
 
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train_origin, test_origin, dict = dill.load(dataset_file)
     train = [train_data, train_origin[1], train_origin[2]]
     test = [test_data, test_origin[1], test_origin[2]]
@@ -119,7 +119,7 @@ def trainer_bert_replace_RNN(args):
             loss.backward()
             optimizer.step()
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN-bert-replace-RNN\\" + "-Test-1")
+    torch.save(model.state_dict(), "./check_points/DRNN-bert-replace-RNN/" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

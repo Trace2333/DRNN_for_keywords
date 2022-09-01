@@ -29,7 +29,7 @@ def trainer_basic(args=None):
     epochs = args.epochs
     evaluation_epochs = args.evaluation_epochs
     lr = args.lr
-    embedding_model = open(".\\hot_data\\embedding_origin.pkl", "rb")
+    embedding_model = open("./hot_data/embedding_origin.pkl", "rb")
     matrix = dill.load(embedding_model)
     embedding_model.close()
     matrix = torch.tensor(matrix).to(device)
@@ -54,7 +54,7 @@ def trainer_basic(args=None):
         para_name="DRN-Test-2.pth",
         if_load_or_not=True
     )
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
 
     dataset = RNNdataset(train)
@@ -129,7 +129,7 @@ def trainer_basic(args=None):
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN\\" + "DRN" + "-Test-3.pth")
+    torch.save(model.state_dict(), "./check_points/DRNN/" + "DRN" + "-Test-3.pth")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

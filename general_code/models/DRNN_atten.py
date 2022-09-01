@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from attention import SelfDotProductAttention
+from .attention import SelfDotProductAttention
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

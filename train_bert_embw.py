@@ -34,7 +34,7 @@ def trainer_bert_embw(args):
     evaluation_epochs = args.evaluation_epochs
     lr = args.lr
 
-    embedding_model = open(".\\hot_data\\bert_embedding.pkl", "rb")
+    embedding_model = open("./hot_data/bert_embedding.pkl", "rb")
     matrix = pickle.load(embedding_model)
     embedding_model.close()
     matrix = np.array(dict_to_list(matrix))
@@ -58,7 +58,7 @@ def trainer_bert_embw(args):
         if_load_or_not=False
     )
 
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
 
     dataset = RNNdataset(train)
@@ -127,7 +127,7 @@ def trainer_bert_embw(args):
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
 
-    torch.save(model.state_dict(), ".\\check_points\\DRNN-bert-embw\\" + "DRN-bert-embw" + "-Test-1")
+    torch.save(model.state_dict(), "./check_points/DRNN-bert-embw/" + "DRN-bert-embw" + "-Test-1")
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
