@@ -20,10 +20,14 @@ def trainer_bert_embw(args):
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project="DRNN-Bert-embw")
+    wandb.init(project="DRNN-Bert-embw",
+                        notes=args.notes)
     wandb.config.epochs = args.epochs
     wandb.config.lr = args.lr
     wandb.config.batch_size = args.batch_size
+    wandb.hidden_size1 = args.hidden_size1
+    wandb.hidden_size2 = args.hidden_size2
+    wandb.input_size = args.input_size
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     batch_size = args.batch_size
@@ -53,9 +57,9 @@ def trainer_bert_embw(args):
 
     load_config(
         model,
-        target_path="/RNN_attention/",
-        para_name="parameters_epoch_2.pth",
-        if_load_or_not=False
+        target_path="/DRNN-bert-embw/",
+        para_name=args.load_para,
+        if_load_or_not=args.if_load
     )
 
     dataset_file = open("./hot_data/data_set.pkl", 'rb')
@@ -126,8 +130,9 @@ def trainer_bert_embw(args):
                 if parms.grad is not None:
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
-
-    torch.save(model.state_dict(), "./check_points/DRNN-bert-embw/" + "DRN-bert-embw" + "-Test-1")
+    if args.if_save is True and args.save_path is not None:
+        print("Ready to save...")
+        torch.save(model.state_dict(), "./check_points/DRNN-bert-embw/" + args.save_path)
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")

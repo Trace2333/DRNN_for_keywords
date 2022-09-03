@@ -17,3 +17,6 @@ def load_config(model, target_path, para_name, if_load_or_not):
     if os.path.exists(check_point + target_path+ para_name) and if_load is True:    # 参数加载
         model.load_state_dict(torch.load(check_point + target_path+ para_name))
         print(para_name + " Parms loaded!!!")
+    elif not os.path.exists(check_point + target_path + para_name):
+        #print(check_point + target_path + para_name + " is not exists!!!")
+        raise RuntimeError(check_point + target_path + para_name + " is not exist.")

@@ -6,12 +6,12 @@ python3 train_atten.py \
 	--hidden_size1=300 \
 	--hidden_size2=300 \
 	--epochs=1 \
-	--lr=1e-06 \
+	--lr=2e-05 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
 	--loss_fun=CrossEntropyLoss \
 	--if_load=True \
 	--if_save=True \
-	--notes=epoch=5;saving;lr=1e-6;eval_epoch=1;default \
-	--save_name=epoch=5-lr=1e-6.pth \
+	--notes=epoch=5;saving;lr=2e-5;eval_epoch=1;default \
+	--save_name=epoch=5-lr=2e-5.pth \
 	--load_para=epoch=4.pt
