@@ -124,8 +124,7 @@ def trainer_atten(args):
         seq_acc_eval = []
         sen_recall_eval = []
         seq_recall_eval = []
-        sen_f1_eval = []
-        seq_f1_eval = []
+
         for step, evaluation_input in enumerate(evaluation_iteration):
             with torch.no_grad():
                 output1, output2 = model((evaluation_input[
@@ -137,15 +136,15 @@ def trainer_atten(args):
                 seq_acc_eval.append(acc_metrics(sequence_preds, evaluation_input[1][1]))
                 sen_recall_eval.append(recall_metrics(sentence_preds, evaluation_input[1][0]))
                 seq_recall_eval.append(recall_metrics(sentence_preds, evaluation_input[1][0]))
-                sen_f1_eval.append(f1_metrics(sen_acc_eval, sen_recall_eval))
-                seq_f1_eval.append(f1_metrics(seq_acc_eval, seq_recall_eval))
+                sen_f1_eval = f1_metrics(mean(sen_acc_eval), mean(sen_recall_eval))
+                seq_f1_eval = f1_metrics(mean(seq_acc_eval), mean(seq_recall_eval))
 
         wandb.log({"Sentence Precision": mean(sen_acc_eval)})
         wandb.log({"Sequence Precision": mean(seq_acc_eval)})
         wandb.log({"Sentence Recall": mean(sen_recall_eval)})
         wandb.log({"Sequence Recall": mean(seq_recall_eval)})
-        wandb.log({"Sentence F1 Score": mean(sen_f1_eval)})
-        wandb.log({"Sequence F1 Score": mean(seq_f1_eval)})
+        wandb.log({"Sentence F1 Score": sen_f1_eval})
+        wandb.log({"Sequence F1 Score": seq_f1_eval})
         
     if args.if_save is True:
         print("Saving parameters....")
