@@ -135,6 +135,11 @@ def trainer_basic(args=None):
                         
         evaluation_iteration = tqdm(evaluation_loader, desc=f"eval on {epoch} parameters...")
         model.eval()
+        sen_acc_eval = []
+        seq_acc_eval = []
+        sen_recall_eval = []
+        seq_recall_eval = []
+
         for step, evaluation_input in enumerate(evaluation_iteration):
             with torch.no_grad():
                 output1, output2 = model((evaluation_input[
@@ -142,19 +147,19 @@ def trainer_basic(args=None):
                 sentence_preds = output1.argmax(axis=2)
                 sequence_preds = output2.argmax(axis=2)
 
-                sen_acc = acc_metrics(sentence_preds, evaluation_input[1][0])  # 参数计算
-                seq_acc = acc_metrics(sequence_preds, evaluation_input[1][1])
-                sen_recall = recall_metrics(sentence_preds, evaluation_input[1][0])
-                seq_recall = recall_metrics(sentence_preds, evaluation_input[1][0])
-                sen_f1 = f1_metrics(sen_acc, sen_recall)
-                seq_f1 = f1_metrics(seq_acc, seq_recall)
+                sen_acc_eval.append(acc_metrics(sentence_preds, evaluation_input[1][0]))  # 参数计算
+                seq_acc_eval.append(acc_metrics(sequence_preds, evaluation_input[1][1]))
+                sen_recall_eval.append(recall_metrics(sentence_preds, evaluation_input[1][0]))
+                seq_recall_eval.append(recall_metrics(sentence_preds, evaluation_input[1][0]))
+                sen_f1_eval = f1_metrics(mean(sen_acc_eval), mean(sen_recall_eval))
+                seq_f1_eval = f1_metrics(mean(seq_acc_eval), mean(seq_recall_eval))
 
-                wandb.log({"Sentence Precision": sen_acc})
-                wandb.log({"Sequence Precision": seq_acc})
-                wandb.log({"Sentence Recall": sen_recall})
-                wandb.log({"Sequence Recall": seq_recall})
-                wandb.log({"Sentence F1 Score": sen_f1})
-                wandb.log({"Sequence F1 Score": seq_f1})
+        wandb.log({"Sentence Precision": mean(sen_acc_eval)})
+        wandb.log({"Sequence Precision": mean(seq_acc_eval)})
+        wandb.log({"Sentence Recall": mean(sen_recall_eval)})
+        wandb.log({"Sequence Recall": mean(seq_recall_eval)})
+        wandb.log({"Sentence F1 Score": sen_f1_eval})
+        wandb.log({"Sequence F1 Score": seq_f1_eval})
 
     if args.if_save is True and args.save_name is not None:
         torch.save(model.state_dict(), "./check_points/DRNN/" + args.save_name)
