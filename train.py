@@ -17,11 +17,11 @@ def trainer_basic(args=None):
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb_config = dict(
+    wandb_config = {
         "epochs": args.epochs,
         "lr": args.lr,
         "batch_size": args.batch_size
-    )
+    }
     wandb.init(project=args.project,
                notes=args.notes,
                config=wandb_config)

@@ -9,4 +9,9 @@ python3 train.py \
 	--lr=0.001 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
-	--loss_fun=CrossEntropyLos
+	--loss_fun=CrossEntropyLoss \
+	--if_load=False \
+	--load_para= \
+	--save_name=Test.pth \
+	--if_save=False \
+	--notes=首次实�
