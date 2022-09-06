@@ -117,7 +117,7 @@ def trainer_atten(args):
                     if parms.grad is not None:
                         wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
 
-        evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
+        evaluation_iteration = tqdm(evaluation_loader, desc=f"eval on {epoch} parameters...")
         model.eval()
         for step, evaluation_input in enumerate(evaluation_iteration):
             with torch.no_grad():
@@ -126,11 +126,19 @@ def trainer_atten(args):
                 sentence_preds = output1.argmax(axis=2)
                 sequence_preds = output2.argmax(axis=2)
 
-                sen_acc = acc_metrics(sentence_preds, evaluation_input[1][0])    # 参数计算
+                sen_acc = acc_metrics(sentence_preds, evaluation_input[1][0])  # 参数计算
                 seq_acc = acc_metrics(sequence_preds, evaluation_input[1][1])
+                sen_recall = recall_metrics(sentence_preds, evaluation_input[1][0])
+                seq_recall = recall_metrics(sentence_preds, evaluation_input[1][0])
+                sen_f1 = f1_metrics(sen_acc, sen_recall)
+                seq_f1 = f1_metrics(seq_acc, seq_recall)
 
                 wandb.log({"Sentence Precision": sen_acc})
                 wandb.log({"Sequence Precision": seq_acc})
+                wandb.log({"Sentence Recall": sen_recall})
+                wandb.log({"Sequence Recall": seq_recall})
+                wandb.log({"Sentence F1 Score": sen_f1})
+                wandb.log({"Sequence F1 Score": seq_f1})
         
     if args.if_save is True:
         print("Saving parameters....")
