@@ -21,6 +21,7 @@ def trainer_basic(args=None):
     wandb.config.epochs = args.epochs
     wandb.config.lr = args.lr
     wandb.config.batch_size = args.batch_size
+    torch.manual_seed(args.seed)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = args.batch_size    # 基本参数
     input_size = args.input_size
