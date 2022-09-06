@@ -26,11 +26,11 @@ args.save_name = "Test.pth"
 args.if_save = False
 
 args.project = "DRNN"
-args.notes = "长epoch实验,epoch=30"
+args.notes = "长epoch实验,epoch=30，只有acc记录"
 
 args.debug = False
 
 json_args = json_create(args)
-sh_create("run_attention.sh", json_args)
+sh_create("run_base.sh", json_args)
 trainer_basic(args)
 

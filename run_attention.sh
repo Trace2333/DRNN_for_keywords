@@ -14,5 +14,5 @@ python3 train.py \
 	--load_para= \
 	--save_name=Test.pth \
 	--if_save=False \
-	--notes=长epoch实验,epoch=30 \
+	--notes=长epoch实验,epoch=30，只有acc记录 \
 	--debug=Fals

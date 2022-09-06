@@ -144,17 +144,9 @@ def trainer_basic(args=None):
 
                 sen_acc = acc_metrics(sentence_preds, evaluation_input[1][0])  # 参数计算
                 seq_acc = acc_metrics(sequence_preds, evaluation_input[1][1])
-                sen_recall = recall_metrics(sentence_preds, inputs[1][0])
-                seq_recall = recall_metrics(sentence_preds, inputs[1][0])
-                sen_f1 = f1_metrics(sen_acc, sen_recall)
-                seq_f1 = f1_metrics(seq_acc, seq_recall)
 
                 wandb.log({"Sentence Precision": sen_acc})
                 wandb.log({"Sequence Precision": seq_acc})
-                wandb.log({"Sentence Recall": sen_recall})
-                wandb.log({"Sequence Recall": seq_recall})
-                wandb.log({"Sentence F1 Score": sen_f1})
-                wandb.log({"Sequence F1 Score": seq_f1})
 
     if args.if_save is True and args.save_name is not None:
         torch.save(model.state_dict(), "./check_points/DRNN/" + args.save_name)
