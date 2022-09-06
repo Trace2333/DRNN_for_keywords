@@ -16,6 +16,7 @@ class DRNN(nn.Module):
         self.batchsize = batchsize
         self.RNN1 = nn.RNN(inputsize1, hiddensize1, batch_first=True, bidirectional=False)
         self.RNN2 = nn.RNN(inputsize, hiddensize2, batch_first=True, bidirectional=False)
+        self.softmax = nn.Softmax(dim=-1)
         self.Linear1 = nn.Linear(in_features=inchanle, out_features=outchanle1)
         self.Linear2 = nn.Linear(in_features=inchanle, out_features=outchanle2)
         self.dropout = nn.Dropout(0.5)
@@ -34,6 +35,8 @@ class DRNN(nn.Module):
             rnnout2, state2 = self.RNN2(rnnout1)
             y = self.Linear1(rnnout1)
             z = self.Linear2(rnnout2)
+            y = self.softmax(y)
+            z = self.softmax(z)
             return y, z
         else:
             x = nn.functional.embedding(torch.tensor(contextwin_2(inputs, 3), dtype=torch.int32).to(device),
