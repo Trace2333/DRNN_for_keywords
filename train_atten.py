@@ -110,11 +110,13 @@ def trainer_atten(args):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-    if args.if_save is True:
-        print("Saving parameters....")
-        torch.save(model.state_dict(), "./check_points/DRNN-atten/" + args.save_name)
+            
+            if args.debug is not None and args.debug is True:
+                for name, parms in model.named_parameters():    # debug时使用，可视化每一个层的grad与weight
+                    wandb.log({f"{name} Weight:" : torch.mean(parms.data)})
+                    if parms.grad is not None:
+                        wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
 
-    for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
         model.eval()
         for step, evaluation_input in enumerate(evaluation_iteration):
@@ -129,3 +131,7 @@ def trainer_atten(args):
 
                 wandb.log({"Sentence Precision": sen_acc})
                 wandb.log({"Sequence Precision": seq_acc})
+        
+    if args.if_save is True:
+        print("Saving parameters....")
+        torch.save(model.state_dict(), "./check_points/DRNN-atten/" + args.save_name)
