@@ -1,0 +1,18 @@
+python3 train_bert_embw.py /
+	--device=cuda /
+	--seed=42 /
+	--batch_size=16 /
+	--input_size=768 /
+	--hidden_size1=768 /
+	--hidden_size2=768 /
+	--epochs=1 /
+	--lr=0.001 /
+	--evaluation_epochs=1 /
+	--optim=Adam /
+	--loss_fun=CrossEntropyLoss /
+	--notes=测试新代码 /
+	--if_save=False /
+	--if_load=False /
+	--load_para=epoch=3_lr=1e-3.pth /
+	--save_path=epoch=1_lr=1e-3_softmax_activation.pth /
+	--debug=Fals

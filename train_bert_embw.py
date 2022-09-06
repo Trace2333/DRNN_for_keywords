@@ -20,11 +20,15 @@ def trainer_bert_embw(args):
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
+    wandb_config = {
+        "epochs": args.epochs,
+        "lr": args.lr,
+        "batch_size": args.batch_size
+    }
     wandb.init(project="DRNN-Bert-embw",
-                        notes=args.notes)
-    wandb.config.epochs = args.epochs
-    wandb.config.lr = args.lr
-    wandb.config.batch_size = args.batch_size
+                        notes=args.notes,
+                        config=wandb_config)
+    torch.manual_seed(args.seed)
     wandb.hidden_size1 = args.hidden_size1
     wandb.hidden_size2 = args.hidden_size2
     wandb.input_size = args.input_size
@@ -38,7 +42,7 @@ def trainer_bert_embw(args):
     evaluation_epochs = args.evaluation_epochs
     lr = args.lr
 
-    embedding_model = open("./hot_data/bert_embedding.pkl", "rb")
+    embedding_model = open("./hot_data/embedding.pkl", "rb")
     matrix = pickle.load(embedding_model)
     embedding_model.close()
     matrix = np.array(dict_to_list(matrix))
@@ -124,17 +128,12 @@ def trainer_bert_embw(args):
             loss.backward()
             optimizer.step()
 
-            """
-            for name, parms in model.named_parameters():    #debug时使用，可视化每一个层的grad与weight
-                wandb.log({f"{name} Weight:" : torch.mean(parms.data)})
-                if parms.grad is not None:
-                    wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
-            """
-    if args.if_save is True and args.save_path is not None:
-        print("Ready to save...")
-        torch.save(model.state_dict(), "./check_points/DRNN-bert-embw/" + args.save_path)
-
-    for epoch in range(evaluation_epochs):
+            if args.debug is not None and args.debug is True:
+                for name, parms in model.named_parameters():    # debug时使用，可视化每一个层的grad与weight
+                    wandb.log({f"{name} Weight:" : torch.mean(parms.data)})
+                    if parms.grad is not None:
+                        wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
+            
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
         model.eval()
         for step, evaluation_input in enumerate(evaluation_iteration):
@@ -157,3 +156,9 @@ def trainer_bert_embw(args):
                 wandb.log({"Sequence Recall": seq_recall})
                 wandb.log({"Sentence f1-score": sen_f1})
                 wandb.log({"Sequence f1-score": seq_f1})
+            
+            
+    if args.if_save is True and args.save_path is not None:
+        print("Ready to save...")
+        torch.save(model.state_dict(), "./check_points/DRNN-bert-embw/" + args.save_path)
+
