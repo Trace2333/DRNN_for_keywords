@@ -11,7 +11,7 @@ args.batch_size = 64
 args.input_size = 300
 args.hidden_size1 = 300
 args.hidden_size2 = 300
-args.epochs = 1
+args.epochs = 30
 args.lr = 1e-3
 # 超参数
 
@@ -26,7 +26,9 @@ args.save_name = "Test.pth"
 args.if_save = False
 
 args.project = "DRNN"
-args.notes = "首次实验"
+args.notes = "长epoch实验,epoch=30"
+
+args.debug = False
 
 json_args = json_create(args)
 sh_create("run_attention.sh", json_args)

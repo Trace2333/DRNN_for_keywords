@@ -35,8 +35,8 @@ class DRNN(nn.Module):
             rnnout2, state2 = self.RNN2(rnnout1)
             y = self.Linear1(rnnout1)
             z = self.Linear2(rnnout2)
-            y = self.softmax(y)
-            z = self.softmax(z)
+            #y = self.softmax(y)
+            #z = self.softmax(z)
             return y, z
         else:
             x = nn.functional.embedding(torch.tensor(contextwin_2(inputs, 3), dtype=torch.int32).to(device),

@@ -5,7 +5,7 @@ python3 train.py \
 	--input_size=300 \
 	--hidden_size1=300 \
 	--hidden_size2=300 \
-	--epochs=1 \
+	--epochs=30 \
 	--lr=0.001 \
 	--evaluation_epochs=1 \
 	--optim=Adam \
@@ -14,4 +14,5 @@ python3 train.py \
 	--load_para= \
 	--save_name=Test.pth \
 	--if_save=False \
-	--notes=首次实�
+	--notes=长epoch实验,epoch=30 \
+	--debug=Fals
