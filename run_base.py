@@ -13,13 +13,22 @@ args.hidden_size1 = 300
 args.hidden_size2 = 300
 args.epochs = 1
 args.lr = 1e-3
+# 超参数
+
 args.evaluation_epochs = 1
 args.optim = "Adam"
 args.loss_fun = "CrossEntropyLoss"
+# 模块
+
+args.if_load = False
+args.load_para = ""
+args.save_name = "Test.pth"
+args.if_save = False
+
 args.project = "DRNN"
+args.notes = "首次实验"
 
 json_args = json_create(args)
 sh_create("run_attention.sh", json_args)
-
 trainer_basic(args)
 

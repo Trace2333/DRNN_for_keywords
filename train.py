@@ -17,10 +17,14 @@ def trainer_basic(args=None):
         args = get_parameter()
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project=args.project)
-    wandb.config.epochs = args.epochs
-    wandb.config.lr = args.lr
-    wandb.config.batch_size = args.batch_size
+    wandb_config = dict(
+        "epochs": args.epochs,
+        "lr": args.lr,
+        "batch_size": args.batch_size
+    )
+    wandb.init(project=args.project,
+               notes=args.notes,
+               config=wandb_config)
     torch.manual_seed(args.seed)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = args.batch_size    # 基本参数
@@ -52,8 +56,8 @@ def trainer_basic(args=None):
     load_config(
         model,
         target_path="/DRNN/",
-        para_name="DRN-Test-2.pth",
-        if_load_or_not=True
+        para_name=args.load_para,
+        if_load_or_not=args.if_load
     )
     dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
@@ -129,8 +133,8 @@ def trainer_basic(args=None):
                 if parms.grad is not None:
                     wandb.log({f"{name} Grad_Value:" : torch.mean(parms.grad)})
             """
-
-    torch.save(model.state_dict(), "./check_points/DRNN/" + "DRN" + "-Test-3.pth")
+    if args.if_save is True and args.save_name is not None:
+        torch.save(model.state_dict(), "./check_points/DRNN/" + args.save_name)
 
     for epoch in range(evaluation_epochs):
         evaluation_iteration = tqdm(evaluation_loader, desc=f"EVALUATION on epoch {epoch + 1}")
