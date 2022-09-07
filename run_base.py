@@ -11,7 +11,7 @@ args.batch_size = 64
 args.input_size = 300
 args.hidden_size1 = 300
 args.hidden_size2 = 300
-args.epochs = 30
+args.epochs = 200
 args.lr = 1e-3
 # 超参数
 

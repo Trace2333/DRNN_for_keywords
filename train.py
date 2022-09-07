@@ -4,6 +4,7 @@ import torch
 import os
 import dill
 from tqdm import tqdm
+from numpy import *
 from general_code.utils.config_fun import load_config
 from general_code.utils.args import get_parameter
 from torch.utils.data import DataLoader
@@ -87,7 +88,7 @@ def trainer_basic(args=None):
         optimizer = torch.optim.SGD(model.parameters(), lr)
     else:
         optimizer = torch.optim.Adam(model.parameters(), lr)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3000, gamma=0.91)
 
     logging.info("Start Iteration")
     for epoch in range(epochs):  # the length of padding is 128
@@ -115,7 +116,7 @@ def trainer_basic(args=None):
 
             loss1 = lossfunction(output1.permute(0, 2, 1), inputs[1][0])    # loss计算,按照NER标准
             loss2 = lossfunction(output2.permute(0, 2, 1), inputs[1][1])
-            loss = loss2 * 0.7 + loss1 * 0.3
+            loss = loss2 * 0.6 + loss1 * 0.4
 
             iteration.set_postfix(loss1='{:.4f}'.format(loss1), loss2='{:.4f}'.format(loss2))
             wandb.log({"train loss1": loss1})
@@ -126,6 +127,7 @@ def trainer_basic(args=None):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            scheduler.step()
 
             if args.debug is not None and args.debug is True:
                 for name, parms in model.named_parameters():    # debug时使用，可视化每一个层的grad与weight
@@ -160,6 +162,7 @@ def trainer_basic(args=None):
         wandb.log({"Sequence Recall": mean(seq_recall_eval)})
         wandb.log({"Sentence F1 Score": sen_f1_eval})
         wandb.log({"Sequence F1 Score": seq_f1_eval})
+        wandb.log({"Epoch": epoch})
 
     if args.if_save is True and args.save_name is not None:
         torch.save(model.state_dict(), "./check_points/DRNN/" + args.save_name)

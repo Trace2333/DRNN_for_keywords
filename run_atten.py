@@ -11,7 +11,7 @@ args.batch_size = 128
 args.input_size = 300
 args.hidden_size1 = 300
 args.hidden_size2 = 300
-args.epochs = 1
+args.epochs = 100
 args.lr = 1e-3
 args.evaluation_epochs = 1
 args.optim = "Adam"
@@ -23,7 +23,7 @@ args.if_save = False
 args.save_name= 'epoch=5-lr=2e-5.pth'
 args.load_para = "epoch=4.pth"
 
-args.notes = "测试新代码"
+args.notes = "大epoch测试"
 
 args.debug = False
 

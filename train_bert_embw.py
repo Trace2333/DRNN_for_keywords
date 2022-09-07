@@ -6,6 +6,7 @@ import dill
 import pickle
 from tqdm import tqdm
 import numpy as np
+from numpy import *
 from general_code.utils.config_fun import load_config
 from general_code.utils.args import get_parameter
 from torch.utils.data import DataLoader

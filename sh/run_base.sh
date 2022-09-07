@@ -1,18 +1,18 @@
-python3 train_atten.py /
+python3 train.py /
 	--device=cuda /
 	--seed=42 /
-	--batch_size=128 /
+	--batch_size=64 /
 	--input_size=300 /
 	--hidden_size1=300 /
 	--hidden_size2=300 /
-	--epochs=100 /
+	--epochs=200 /
 	--lr=0.001 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
 	--if_load=False /
+	--load_para= /
+	--save_name=Test.pth /
 	--if_save=False /
-	--save_name=epoch=5-lr=2e-5.pth /
-	--load_para=epoch=4.pth /
-	--notes=大epoch测试 /
+	--notes=长epoch实验,epoch=30，只有acc记录 /
 	--debug=Fals

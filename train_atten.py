@@ -73,7 +73,7 @@ def trainer_atten(args):
 
     lossfunction = torch.nn.CrossEntropyLoss()    # 优化器、损失函数选择
     optimizer = torch.optim.Adam(model.parameters(), lr)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3000, gamma=0.85)
 
     for epoch in range(epochs):  # the length of padding is 128
         iteration = tqdm(train_loader, desc=f"TRAIN on epoch {epoch}")
@@ -100,7 +100,7 @@ def trainer_atten(args):
 
             loss1 = lossfunction(output1.permute(0, 2, 1), inputs[1][0])    # loss计算,按照NER标准
             loss2 = lossfunction(output2.permute(0, 2, 1), inputs[1][1])
-            loss = loss2 * 0.7 + loss1 * 0.3
+            loss = loss2 * 0.5 + loss1 * 0.5
 
             iteration.set_postfix(loss1='{:.4f}'.format(loss1), loss2='{:.4f}'.format(loss2))
             wandb.log({"train loss1": loss1})
@@ -111,6 +111,7 @@ def trainer_atten(args):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            scheduler.step()
             
             if args.debug is not None and args.debug is True:
                 for name, parms in model.named_parameters():    # debug时使用，可视化每一个层的grad与weight
@@ -145,6 +146,8 @@ def trainer_atten(args):
         wandb.log({"Sequence Recall": mean(seq_recall_eval)})
         wandb.log({"Sentence F1 Score": sen_f1_eval})
         wandb.log({"Sequence F1 Score": seq_f1_eval})
+        wandb.log({"Epoch": epoch})
+        
         
     if args.if_save is True:
         print("Saving parameters....")

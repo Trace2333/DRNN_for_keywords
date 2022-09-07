@@ -8,3 +8,4 @@ general_code/utils/__pycache__/
 general_code/models/__pycache__/
 .idea/
 *.pyc
+*.out
