@@ -2,8 +2,8 @@ python3 Bert_finetuing.py /
 	--device=cuda /
 	--seed=42 /
 	--batch_size=32 /
-	--epochs=10 /
-	--lr=1e-05 /
+	--epochs=20 /
+	--lr=1e-06 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
