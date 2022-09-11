@@ -100,7 +100,7 @@ def trainer_atten(args):
 
             loss1 = lossfunction(output1.permute(0, 2, 1), inputs[1][0])    # loss计算,按照NER标准
             loss2 = lossfunction(output2.permute(0, 2, 1), inputs[1][1])
-            loss = loss2 * 0.5 + loss1 * 0.5
+            loss = loss2 * 0.6 + loss1 * 0.4
 
             iteration.set_postfix(loss1='{:.4f}'.format(loss1), loss2='{:.4f}'.format(loss2))
             wandb.log({"train loss1": loss1})

@@ -11,8 +11,8 @@ args.batch_size = 64
 args.input_size = 300
 args.hidden_size1 = 300
 args.hidden_size2 = 300
-args.epochs = 200
-args.lr = 1e-3
+args.epochs = 100
+args.lr = 3e-3
 # 超参数
 
 args.evaluation_epochs = 1
@@ -26,7 +26,7 @@ args.save_name = "Test.pth"
 args.if_save = False
 
 args.project = "DRNN"
-args.notes = "长epoch实验,epoch=30，只有acc记录"
+args.notes = "长epoch实验,epoch=100,综合记录,alpha=0.4,gamma=0.91,lr=3e-3"
 
 args.debug = False
 

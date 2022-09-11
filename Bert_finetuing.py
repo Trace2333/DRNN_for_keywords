@@ -132,7 +132,8 @@ def trainer_multitask_bert(args):
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project=args.project)
+    wandb.init(project=args.project,
+               notes=args.notes)
     model = BertForMultiTask(
         pretrain_path=args.bert_path,
         hidden_size=args.hidden_size,
@@ -158,7 +159,7 @@ def trainer_multitask_bert(args):
         dataset=dataset_for_fine,
         collate_fn=collate_fun
     )
-    optimizer = torch.optim.SGD(model.parameters(), lr=args.lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     lossfun = torch.nn.CrossEntropyLoss()
     for epoch in range(args.epochs):
         iteration = tqdm(train_loader, desc="Running train process:")

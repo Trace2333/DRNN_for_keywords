@@ -23,7 +23,7 @@ args.if_save = False
 args.save_name= 'epoch=5-lr=2e-5.pth'
 args.load_para = "epoch=4.pth"
 
-args.notes = "大epoch测试"
+args.notes = "epoch=100,alpha=0.4,lr=1e-3,gamma=0.85"
 
 args.debug = False
 

@@ -5,8 +5,8 @@ python3 train.py /
 	--input_size=300 /
 	--hidden_size1=300 /
 	--hidden_size2=300 /
-	--epochs=200 /
-	--lr=0.001 /
+	--epochs=100 /
+	--lr=0.003 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
@@ -14,5 +14,5 @@ python3 train.py /
 	--load_para= /
 	--save_name=Test.pth /
 	--if_save=False /
-	--notes=长epoch实验,epoch=30，只有acc记录 /
+	--notes=长epoch实验,epoch=100,综合记录,alpha=0.4,gamma=0.91,lr=3e-3 /
 	--debug=Fals
