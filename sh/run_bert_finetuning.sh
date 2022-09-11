@@ -13,4 +13,5 @@ python3 Bert_finetuing.py /
 	--test_sentence_path=./hot_data/test_add.pkl /
 	--labels_path=./hot_data/data_set.pkl /
 	--alpha=0.5 /
-	--hidden_size=76
+	--hidden_size=768 /
+	--notes=从SGD换用ada
