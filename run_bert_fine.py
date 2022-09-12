@@ -9,8 +9,8 @@ args.train_file = "Bert_finetuing.py"
 args.device = torch.device("cuda" if torch.cuda.is_available() is True else "cpu")
 args.seed = 42
 args.batch_size = 32
-args.epochs = 20
-args.lr = 1e-6
+args.epochs = 15
+args.lr = 1e-5
 args.evaluation_epochs = 1
 args.optim = "Adam"
 args.loss_fun = "CrossEntropyLoss"
@@ -24,7 +24,7 @@ args.labels_path = "./hot_data/data_set.pkl"
 args.alpha = 0.5
 args.hidden_size = 768
 
-args.notes = "从SGD换用adam"
+args.notes = "提高学习率到1e-5,epoch=15"
 
 json_args = json_create(args)
 sh_create("run_bert_finetuning.sh", json_args)

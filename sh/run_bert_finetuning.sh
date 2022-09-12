@@ -2,8 +2,8 @@ python3 Bert_finetuing.py /
 	--device=cuda /
 	--seed=42 /
 	--batch_size=32 /
-	--epochs=20 /
-	--lr=1e-06 /
+	--epochs=15 /
+	--lr=1e-05 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
@@ -15,4 +15,4 @@ python3 Bert_finetuing.py /
 	--labels_path=./hot_data/data_set.pkl /
 	--alpha=0.5 /
 	--hidden_size=768 /
-	--notes=从SGD换用ada
+	--notes=提高学习率到1e-5,epoch=1
