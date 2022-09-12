@@ -9,6 +9,7 @@ python3 Bert_finetuing.py /
 	--loss_fun=CrossEntropyLoss /
 	--bert_path=/data1/trace/Github_code/bert-base-uncased /
 	--input_ids_filename=./hot_data/input_ids.pkl /
+	--eval_ids_filename=./hot_data/eval_ids.pkl /
 	--train_sentences_path=./hot_data/train_add.pkl /
 	--test_sentence_path=./hot_data/test_add.pkl /
 	--labels_path=./hot_data/data_set.pkl /
