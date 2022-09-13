@@ -9,7 +9,7 @@ args.train_file = "Bert_finetuing.py"
 args.device = torch.device("cuda" if torch.cuda.is_available() is True else "cpu")
 args.seed = 42
 args.batch_size = 32
-args.epochs = 15
+args.epochs = 100
 args.lr = 1e-5
 args.evaluation_epochs = 1
 args.optim = "Adam"
@@ -21,10 +21,10 @@ args.eval_ids_filename = "./hot_data/eval_ids.pkl"
 args.train_sentences_path = "./hot_data/train_add.pkl"
 args.test_sentence_path = "./hot_data/test_add.pkl"
 args.labels_path = "./hot_data/data_set.pkl"
-args.alpha = 0.5
+args.alpha = 0.4
 args.hidden_size = 768
 
-args.notes = "提高学习率到1e-5,epoch=15"
+args.notes = "学习率1e-5,epoch=100,alpha=0.4,延续之前没有收敛的实验"
 
 json_args = json_create(args)
 sh_create("run_bert_finetuning.sh", json_args)

@@ -87,7 +87,8 @@ def trainer_bert_finetuning(args):
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    wandb.init(project=args.project)
+    wandb.init(project=args.project,
+               notes=args.notes)
     model = BertForTokenClassification.from_pretrained(args.bert_path).to(device)
     tokenizer = BertTokenizer.from_pretrained(args.bert_path)
     train, test = sentence_reshape(

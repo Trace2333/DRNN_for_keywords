@@ -2,7 +2,7 @@ python3 Bert_finetuing.py /
 	--device=cuda /
 	--seed=42 /
 	--batch_size=32 /
-	--epochs=15 /
+	--epochs=100 /
 	--lr=1e-05 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
@@ -13,6 +13,6 @@ python3 Bert_finetuing.py /
 	--train_sentences_path=./hot_data/train_add.pkl /
 	--test_sentence_path=./hot_data/test_add.pkl /
 	--labels_path=./hot_data/data_set.pkl /
-	--alpha=0.5 /
+	--alpha=0.4 /
 	--hidden_size=768 /
-	--notes=提高学习率到1e-5,epoch=1
+	--notes=学习率1e-5,epoch=100,alpha=0.4,延续之前没有收敛的实�
