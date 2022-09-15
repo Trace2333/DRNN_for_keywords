@@ -19,7 +19,7 @@ def trainer_no_embw(args=None):
     torch.manual_seed(args.seed)
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
-    os.system("wandb offline")
+    os.system("wandb online")
     wandb.init(project=args.project,
                notes=args.notes)
     wandb.config.epochs = args.epochs
@@ -51,7 +51,7 @@ def trainer_no_embw(args=None):
         para_name=args.load_para,
         if_load_or_not=args.if_load
     )
-    dataset_file = open(".\\hot_data\\data_set.pkl", 'rb')
+    dataset_file = open("./hot_data/data_set.pkl", 'rb')
     train, test, dict = dill.load(dataset_file)
 
     dataset = RNNdataset(train)
@@ -155,5 +155,5 @@ def trainer_no_embw(args=None):
         wandb.log({"Sequence F1 Score": seq_f1_eval})
 
     if args.if_save is True:
-        torch.save(model.state_dict(), ".\\check_points\\DRNN-No-Embw\\" + args.save_name)
+        torch.save(model.state_dict(), "./check_points/DRNN-No-Embw/" + args.save_name)
 
