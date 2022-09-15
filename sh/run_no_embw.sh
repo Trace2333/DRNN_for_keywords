@@ -5,12 +5,11 @@ python3 train_no_embw.py /
 	--input_size=300 /
 	--hidden_size1=300 /
 	--hidden_size2=300 /
-	--epochs=15 /
+	--epochs=200 /
 	--lr=0.003 /
-	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
-	--notes=Initial test /
+	--notes=测试初始较大学习率，学习率策略为指数缩减，gamma为0.95，epoch=200的大epoch训练，优化器为adam，alpha=0.3 /
 	--load_para=init.pth /
 	--if_load=False /
 	--if_save=False /

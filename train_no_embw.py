@@ -20,14 +20,11 @@ def trainer_no_embw(args=None):
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
     os.system("wandb online")
-    wandb_config = dict(
-        lr=args.lr,
-        batch_size=args.batch_size,
-        epochs=args.epochs,
-        optimizer=args.optimizer,
-        lossfun=args.lossfun,
-        model_name=args.model_name
-    )
+    wandb_config = {'lr': args.lr,
+                    'batch_size': args.batch_size,
+                    'epochs': args.epochs,
+                    'optimizer': args.optim,
+                    'lossfun': args.loss_fun}
     wandb.init(project=args.project,
                notes=args.notes,
                config=wandb_config)
