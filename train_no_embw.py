@@ -20,12 +20,17 @@ def trainer_no_embw(args=None):
     wandb.login(host="http://47.108.152.202:8080",
                 key="local-86eb7fd9098b0b6aa0e6ddd886a989e62b6075f0")
     os.system("wandb online")
+    wandb_config = dict(
+        lr=args.lr,
+        batch_size=args.batch_size,
+        epochs=args.epochs,
+        optimizer=args.optimizer,
+        lossfun=args.lossfun,
+        model_name=args.model_name
+    )
     wandb.init(project=args.project,
-               notes=args.notes)
-    wandb.config.epochs = args.epochs
-    wandb.config.lr = args.lr
-    wandb.config.batch_size = args.batch_size
-
+               notes=args.notes,
+               config=wandb_config)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = args.batch_size    # 基本参数
     input_size = args.input_size
@@ -79,7 +84,7 @@ def trainer_no_embw(args=None):
         optimizer = torch.optim.SGD(model.parameters(), lr)
     else:
         optimizer = torch.optim.Adam(model.parameters(), lr)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=300, gamma=0.95)
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=12000, gamma=0.95)
 
     logging.info("Start Iteration")
     for epoch in range(epochs):  # the length of padding is 128

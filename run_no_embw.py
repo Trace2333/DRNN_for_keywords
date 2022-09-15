@@ -11,9 +11,8 @@ args.batch_size = 64
 args.input_size = 300
 args.hidden_size1 = 300
 args.hidden_size2 = 300
-args.epochs = 5
-args.lr = 1e-3
-args.evaluation_epochs = 1
+args.epochs = 200
+args.lr = 3e-3
 
 args.optim = "Adam"
 args.loss_fun = "CrossEntropyLoss"
@@ -25,7 +24,7 @@ args.if_load = False
 args.if_save = False
 args.save_name = "init.pth"
 
-args.notes = "Initial test"
+args.notes = "测试初始较大学习率，学习率策略为指数缩减，gamma为0.95，epoch=200的大epoch训练，优化器为adam，alpha=0.3"
 
 args.debug = False   # 负责添加权重可视化
 

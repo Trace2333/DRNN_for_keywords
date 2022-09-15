@@ -5,8 +5,8 @@ python3 train_no_embw.py /
 	--input_size=300 /
 	--hidden_size1=300 /
 	--hidden_size2=300 /
-	--epochs=5 /
-	--lr=0.001 /
+	--epochs=15 /
+	--lr=0.003 /
 	--evaluation_epochs=1 /
 	--optim=Adam /
 	--loss_fun=CrossEntropyLoss /
